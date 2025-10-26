@@ -37,6 +37,15 @@ Object.assign(window, {
 	uiState
 });
 
+const existingCoreScript=document.querySelector('script[data-savegame-core]');
+if(!existingCoreScript){
+	const coreScript=document.createElement('script');
+	coreScript.src=new URL('../savegame-editor.js?version=1', import.meta.url).href;
+	coreScript.defer=true;
+	coreScript.dataset.savegameCore='true';
+	document.head.appendChild(coreScript);
+}
+
 export {
 	SavegameEditor,
 	getInternalCategoryId,

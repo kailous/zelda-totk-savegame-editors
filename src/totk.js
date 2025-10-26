@@ -2047,4 +2047,6 @@ function getInternalCategoryId(catId){
 	return (catId.charAt(0).toUpperCase() + catId.substr(1)).replace(/s$/, '')
 }
 
+globalThis.SavegameEditor = SavegameEditor;
+
 export { SavegameEditor, getInternalCategoryId };

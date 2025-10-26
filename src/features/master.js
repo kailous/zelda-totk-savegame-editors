@@ -536,4 +536,5 @@ const TOTKMasterEditor=(function(){
 			return currentMini.struct.import(importedObject);
 		}
 	}
-}());\nexport { TOTKMasterEditor };
+}());
+export { TOTKMasterEditor };
