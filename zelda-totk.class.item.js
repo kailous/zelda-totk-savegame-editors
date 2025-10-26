@@ -2,8 +2,11 @@
 	The legend of Zelda: Tears of the Kingdom savegame editor - Item class (last update 2025-06-08)
 
 	by Marc Robledo 2023-2025
-	item names compiled by Echocolat, Exincracci, HylianLZ and Karlos007
+item names compiled by Echocolat, Exincracci, HylianLZ and Karlos007
 */
+
+(function(global){
+'use strict';
 
 function Item(catId, itemData, overrideId){
 	this.category=catId;
@@ -67,80 +70,9 @@ Item.prototype.export=function(){
 		throw new Error('Invalid item category');
 	}
 }
-Item.prototype.refreshHtmlInputs=function(fixValues){
-	var isCountable=this.category !== 'key' || Item.KEY_COUNTABLE.indexOf(this.id)!==-1;
-	if(fixValues){
-		if(this.category==='food'){
-			if(this.lastInputChanged==='effect'){
-				if(this.id==='Item_Cook_C_17' && Item.VALID_ELIXIR_EFFECTS.indexOf(hashReverse(this.effect))!==-1)
-					Pouch.updateItemIcon(this);
-				if(this.effect===hash('None')){
-					this.effectMultiplier=0;
-					this.effectTime=0;
-				}
-			}
-		}else if(this.category==='key'){
-			if(isCountable && this.quantity<1)
-				this.quantity=1;
-			else if(!isCountable && this.lastInputChanged==='id')
-				this.quantity=-1;
-		}
-	}
-
-
-	this._htmlInputs.quantity.disabled=!isCountable;
-	//this._htmlInputs.quantity.style.visibility=this._htmlInputs.quantity.disabled? 'hidden':'visible';
-	if(this.category==='key'){
-		var maxValue=Item.getMaximumQuantity(this.id);
-		this._htmlInputs.quantity.maxValue=maxValue;
-		if(fixValues && this.quantity>maxValue){
-			this.quantity=maxValue;
-		}
-	}
-
-	if(this.category==='food' && (!fixValues || this.lastInputChanged==='effect')){
-		var effectText;
-		try{
-			effectText=hashReverse(this.effect);
-		}catch(err){
-			effectText='None';
-		}
-
-		if(effectText && effectText!=='None')
-			this._htmlInputs.effectMultiplier.style.backgroundImage='url(assets/tokt_ui_icons/bonus_'+effectText+'.svg)';
-		else
-			this._htmlInputs.effectMultiplier.style.backgroundImage='none';
-
-		this._htmlInputs.effectMultiplier.disabled=this._htmlInputs.effectTime.disabled=(!effectText || effectText==='None');
-	}
-}
-
-
-
-
 Item.getMaximumQuantity=function(itemId){
 	return Item.MAXIMUM_QUANTITY[itemId] || 999;
 }
-Item.buildHtmlElements=function(item){
-	var maxQuantity=Item.getMaximumQuantity(item.id);
-
-	if(item.category==='food'){
-		item._htmlInputs={
-			quantity:Pouch.createItemInput(item, 'quantity', 'Int', {min:1, max:maxQuantity, label:_('Quantity')}),
-			heartsHeal:Pouch.createItemInput(item, 'heartsHeal', 'Int', {min:-1, max:40*4, label:_('Heart quarters heal')}),
-			effect:Pouch.createItemInput(item, 'effect', 'Enum', {enumValues:Item.FOOD_EFFECTS, label:_('Food effect')}),
-			effectMultiplier:Pouch.createItemInput(item, 'effectMultiplier', 'Int', {min:-1, max:250, label:_('Multiplier')}),
-			effectTime:Pouch.createItemInput(item, 'effectTime', 'Int', {min:-1, max:59999, label:_('Duration (in seconds)')}),
-			price:Pouch.createItemInput(item, 'price', 'Int', {min:1, max:999999, label:_('Price')})
-		};
-		item._htmlInputs.effectMultiplier.className+=' with-icon';
-	}else{
-		item._htmlInputs={
-			quantity:Pouch.createItemInput(item, 'quantity', 'Int', {min:-1, max:maxQuantity, label:_('Quantity')})
-		};
-	}
-}
-
 
 Item.MAXIMUM_QUANTITY={
 	Item_Ore_L:999999, //Zonaite
@@ -940,3 +872,6 @@ Item.AVAILABILITY={
 
 Item.VALID_ELIXIR_EFFECTS=['AllSpeed','AttackUp','DefenseUp','ExStaminaMaxUp','LifeMaxUp','LightEmission','NotSlippy','QuietnessUp','ResistBurn','ResistCold','ResistElectric','ResistHot','StaminaRecover'];
 Item.VALID_ELIXIR_EFFECTS.forEach(hash);
+
+global.Item=Item;
+})(this);

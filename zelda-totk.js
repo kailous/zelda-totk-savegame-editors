@@ -417,10 +417,10 @@ SavegameEditor={
 			var foundItem=pouch.findItemById(itemId);
 			if(foundItem){
 				foundItem.quantity+=quantity;
-				Pouch.updateItemRow(foundItem);
+				PouchUI.updateItemRow(foundItem);
 			}else if(!pouch.isFull()){
 				var newItem=pouch.add({id:itemId, quantity:quantity});
-				document.getElementById('container-'+catId).appendChild(Pouch.updateItemRow(newItem));
+				document.getElementById('container-'+catId).appendChild(PouchUI.updateItemRow(newItem));
 			}
 			return quantity;
 		}
@@ -460,9 +460,9 @@ SavegameEditor={
 		}
 
 
-		var row=Pouch.updateItemRow(newItem);
+		var row=PouchUI.updateItemRow(newItem);
 		document.getElementById('container-'+newItem.category).appendChild(row);
-		Pouch.scrollToItem(newItem);
+		PouchUI.scrollToItem(newItem);
 
 		if(catId==='arrows'){
 			var equipIndex=new Variable('Pouch.Arrow.EquipIndex', 'IntArray');
@@ -578,8 +578,8 @@ SavegameEditor={
 
 			if(newId && currentEditingItem.id!==newId){
 				currentEditingItem.id=newId;
-				Pouch.updateItemIcon(currentEditingItem);
-				Pouch.updateItemRow(currentEditingItem);
+				PouchUI.updateItemIcon(currentEditingItem);
+				PouchUI.updateItemRow(currentEditingItem);
 				SavegameEditor.fixItemAvailabilityFlag(currentEditingItem);
 			}
 
@@ -659,7 +659,7 @@ SavegameEditor={
 
 	restoreDurability:function(equipment){
 		if(equipment.restoreDurability()){
-			Pouch.updateItemRow(equipment);
+			PouchUI.updateItemRow(equipment);
 			return true;
 		}
 
@@ -677,7 +677,7 @@ SavegameEditor={
 	},
 	restoreDecay:function(equipment){
 		if(equipment.restoreDecay()){
-			Pouch.updateItemIcon(equipment);
+			PouchUI.updateItemIcon(equipment);
 			return true;
 		}
 		return false;
@@ -694,11 +694,11 @@ SavegameEditor={
 	},
 	setInfiniteDurability:function(equipment){
 		if(equipment.setInfiniteDurability()){
-			Pouch.updateItemRow(equipment);
+			PouchUI.updateItemRow(equipment);
 			return true;
 		}
 
-		Pouch.updateItemRow(equipment);
+		PouchUI.updateItemRow(equipment);
 		return false;
 	},
 	setInfiniteDurabilityAll:function(catId){
@@ -713,7 +713,7 @@ SavegameEditor={
 	},
 	upgradeArmor:function(armor){
 		if(armor.upgrade()){
-			Pouch.updateItemRow(armor);
+			PouchUI.updateItemRow(armor);
 			return true;
 		}
 
@@ -1029,7 +1029,7 @@ SavegameEditor={
 	refreshItemTab:function(catId){
 		empty('container-'+catId);
 		SavegameEditor.pouches[catId].items.forEach(function(item, j){
-			Pouch.updateItemRow(item);
+			PouchUI.updateItemRow(item);
 			document.getElementById('container-'+item.category).appendChild(item._htmlRow);
 		});
 		MarcTooltips.add('#container-'+catId+' select',{position:'left'});
@@ -1220,26 +1220,26 @@ SavegameEditor={
 		/* dropdown */
 		$('#dropdown-item-button-pristine').on('click', function(evt){
 			if(SavegameEditor.restoreDecay(currentEditingItem))
-				Pouch.updateItemRow(currentEditingItem);
+				PouchUI.updateItemRow(currentEditingItem);
 		});
 		$('#dropdown-item-button-durability').on('click', function(evt){
 			if(SavegameEditor.restoreDurability(currentEditingItem))
-				Pouch.updateItemRow(currentEditingItem);
+				PouchUI.updateItemRow(currentEditingItem);
 		});
 		$('#dropdown-item-button-infinite').on('click', function(evt){
 			if(SavegameEditor.setInfiniteDurability(currentEditingItem))
-				Pouch.updateItemRow(currentEditingItem);
+				PouchUI.updateItemRow(currentEditingItem);
 		});
 		$('#dropdown-item-button-upgrade').on('click', function(evt){
 			if(SavegameEditor.upgradeArmor(currentEditingItem))
-				Pouch.updateItemRow(currentEditingItem);
+				PouchUI.updateItemRow(currentEditingItem);
 		});
 		$('#dropdown-item-button-duplicate').on('click', function(evt){
 			var newItem=SavegameEditor.pouches[currentEditingItem.category].add(currentEditingItem);
 			if(newItem){
 				UI.toast(_('Item duplicated'), 'duplicate');
-				document.getElementById('container-'+newItem.category).appendChild(Pouch.updateItemRow(newItem));
-				Pouch.scrollToItem(newItem);
+				document.getElementById('container-'+newItem.category).appendChild(PouchUI.updateItemRow(newItem));
+				PouchUI.scrollToItem(newItem);
 			}
 		});
 		$('#dropdown-item-button-export').on('click', function(evt){
@@ -1278,7 +1278,7 @@ SavegameEditor={
 							pouchItems[index]=new Item(currentEditingItem.category, jsonObject);
 						}
 
-						Pouch.updateItemRow(pouchItems[index]);
+						PouchUI.updateItemRow(pouchItems[index]);
 						document.getElementById('container-'+currentEditingItem.category).replaceChild(pouchItems[index]._htmlRow, currentEditingItem._htmlRow);
 					}
 				}catch(err){
@@ -1425,14 +1425,14 @@ SavegameEditor={
 			this.itemChangeDropdown.addEventListener('change', function(){
 				//console.log('change');
 				currentEditingItem.id=this.value;
-				Pouch.updateItemIcon(currentEditingItem);
+				PouchUI.updateItemIcon(currentEditingItem);
 			}, false);
 			this.itemChangeDropdown.addEventListener('blur', function(){
 				//console.log('blur');
 				for(var prop in currentEditingItem._htmlInputs){
 					currentEditingItem._htmlInputs[prop].disabled=false;
 				}
-				Pouch.updateItemRow(currentEditingItem);
+				PouchUI.updateItemRow(currentEditingItem);
 				SavegameEditor.fixItemAvailabilityFlag(currentEditingItem);
 				currentEditingItem._htmlItemId.style.display='inline';
 				this.parentElement.removeChild(this);
@@ -1679,7 +1679,7 @@ SavegameEditor={
 			//SavegameEditor.parasailPattern.value=hashReverse(parseInt(SavegameEditor.parasailPattern.value));
 			var item=SavegameEditor.pouches.key.findItemById('Parasail');
 			if(item)
-				Pouch.updateItemIcon(item);
+				PouchUI.updateItemIcon(item);
 		});
 
 		/* abilities */

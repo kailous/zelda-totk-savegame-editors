@@ -2,8 +2,11 @@
 	The legend of Zelda: Tears of the Kingdom savegame editor - Equipment class (last update 2023-07-09)
 
 	by Marc Robledo 2023
-	research and item names compiled by Echocolat, Exincracci, HylianLZ, Karlos007 and ApacheThunder
+research and item names compiled by Echocolat, Exincracci, HylianLZ, Karlos007 and ApacheThunder
 */
+
+(function(global){
+'use strict';
 
 function Equipment(catId, itemData, overrideId){ //Weapon, Bow or Shield
 	this.category=catId;
@@ -125,108 +128,6 @@ Equipment.prototype.export=function(){
 		}
 	}
 }
-Equipment.prototype.refreshHtmlInputs=function(fixValues){
-	if(fixValues){
-		this._htmlInputs.durability.maxValue=this.getMaximumDurability();
-		if(this.durability>this._htmlInputs.durability.maxValue)
-			this.durability=this._htmlInputs.durability.maxValue;
-
-		if(this.lastInputChanged==='modifier'){
-			if(this.modifier===hash('None')){
-				this.modifierValue=0;
-				this.restoreDurability();
-			}else if(this.modifierValue<1){
-				this.modifierValue=1;
-			}
-		}
-		if(this.gainsFuseDurability()){
-			this._htmlInputs.extraDurability.maxValue=this.getMaximumRecordDurability();
-			this._htmlInputs.recordExtraDurability.maxValue=this.getMaximumRecordDurability();
-			if(this.extraDurability>this.getMaximumRecordDurability())
-				this.extraDurability=this.getMaximumRecordDurability();
-			if(this.recordExtraDurability>this.getMaximumRecordDurability())
-				this.recordExtraDurability=this.getMaximumRecordDurability();
-		}
-		if(this.lastInputChanged==='fuseId'){
-			if(this.recordExtraDurability===-1){
-				this.recordExtraDurability = this.getMaximumRecordDurability();
-				this.extraDurability = this.recordExtraDurability;
-			}else if(!this.fuseId){
-				this.extraDurability = 0;
-			}else{
-				this.extraDurability = this.recordExtraDurability;
-			}
-		}
-		if(this.lastInputChanged==='extraDurability'){
-			if(this.fuseId){
-				this.recordExtraDurability = this.extraDurability;
-			}else{
-				this.extraDurability = 0;
-			}
-		}
-		if(this.lastInputChanged==='recordExtraDurability'){
-			if(this.fuseId){
-				if(this.recordExtraDurability===-1)
-					this.recordExtraDurability = this.getMaximumRecordDurability();
-				this.extraDurability = this.recordExtraDurability;
-			}
-		}
-	}
-
-
-	this._htmlInputs.modifierValue.disabled=this.modifier===hash('None');
-	if(this.gainsFuseDurability())
-		this._htmlInputs.extraDurability.disabled=!this.fuseId;
-
-
-
-	var modifierText;
-	try{
-		modifierText=hashReverse(this.modifier);
-	}catch(err){
-		modifierText='None';
-	}
-	if(/AttackUp/.test(modifierText))
-		modifierText=this.category+'_'+modifierText;	
-	if(modifierText && modifierText!=='None')
-		this._htmlInputs.modifierValue.style.backgroundImage='url(assets/tokt_ui_icons/bonus_'+modifierText+'.svg)';
-	else
-		this._htmlInputs.modifierValue.style.backgroundImage='none';
-}
-
-
-Equipment.buildHtmlElements=function(item){
-	item._htmlInputs={
-		durability:Pouch.createItemInput(item, 'durability', 'Int', {min:1, max:item.getMaximumDurability(), label:_('Durability')}),
-		modifier:Pouch.createItemInput(item, 'modifier', 'Enum', {enumValues:Equipment.OPTIONS_MODIFIERS[item.category], label:_('Modifier')}),
-		modifierValue:Pouch.createItemInput(item, 'modifierValue', 'Int', {min:-1, max:2100000000, label:_('Modifier value')}),
-	};
-	if(item.isFusable())
-		item._htmlInputs.fuseId=Pouch.createItemInput(item, 'fuseId', 'String64', {enumValues:Equipment.FUSABLE_ITEMS, label:_('Fusion')});
-	if(item.gainsFuseDurability()){
-		item._htmlInputs.extraDurability=Pouch.createItemInput(
-			item,
-			'extraDurability',
-			'Int',
-			{min:0, max:item.getMaximumRecordDurability(), label:_('Current Fuse Durability')}
-		);
-		item._htmlInputs.recordExtraDurability=Pouch.createItemInput(
-			item,
-			'recordExtraDurability',
-			'Int',
-			{min:-1, max:item.getMaximumRecordDurability(), label:_('Max Fuse Durability')}
-		);
-	}
-
-
-
-	item._htmlInputs.modifierValue.className+=' with-icon';
-	item._htmlInputs.modifierValue.backgroundImage='none';
-}
-
-
-
-
 
 Equipment.OPTIONS_MODIFIERS={
 	'weapons':[
@@ -1376,3 +1277,6 @@ Equipment.FUSABLE_ITEMS=(function(){
 
 	return options;
 }());
+
+global.Equipment=Equipment;
+})(this);

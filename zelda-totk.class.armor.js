@@ -2,8 +2,11 @@
 	The legend of Zelda: Tears of the Kingdom savegame editor - Armor class (last update 2023-09-08)
 
 	by Marc Robledo 2023
-	item names compiled by Echocolat, Exincracci, HylianLZ and Karlos007
+item names compiled by Echocolat, Exincracci, HylianLZ and Karlos007
 */
+
+(function(global){
+'use strict';
 
 function Armor(itemData, overrideId){
 	this.category='armors';
@@ -37,21 +40,6 @@ Armor.prototype.export=function(){
 		dyeColor:this.dyeColor
 	}
 }
-Armor.prototype.refreshHtmlInputs=function(fixValues){
-	this._htmlInputs.dyeColor.disabled=!this.canBeDyed();
-	Pouch.updateItemIcon(this);
-}
-
-
-
-Armor.buildHtmlElements=function(item){
-	item._htmlInputs={
-		dyeColor:Pouch.createItemInput(item, 'dyeColor', 'Enum', {enumValues:Armor.OPTIONS_DYE_COLORS, label:_('Dye color')})
-	};
-}
-
-
-
 Armor.OPTIONS_DYE_COLORS=[
 	{originalName:'Default color', value:hash('None')},
 	{originalName:'Blue', value:hash('Blue')},
@@ -388,3 +376,6 @@ Armor.INFO=(function(upgrades, dyeables){
 
 	'005' //Cap/Tunic/Trousers of the Wild
 ]));
+
+global.Armor=Armor;
+})(this);

@@ -2,8 +2,11 @@
 	The legend of Zelda: Tears of the Kingdom savegame editor - Horse class (last update 2023-07-29)
 
 	by Marc Robledo 2023
-	horse data thanks to JonJaded, Ozymandias07 and Karlos007
+horse data thanks to JonJaded, Ozymandias07 and Karlos007
 */
+
+(function(global){
+'use strict';
 
 function Horse(itemData, overrideId){
 	this.category='horses';
@@ -89,41 +92,6 @@ Horse.prototype.export=function(){
 		iconHairSecondaryColorBlue:this.iconHairSecondaryColorBlue
 	}
 }
-Horse.prototype.refreshHtmlInputs=function(fixValues, ignoreEquipment){
-	if(fixValues){
-		var defaultValues=Horse.DEFAULT_VALUES[this.id] || Horse.DEFAULT_VALUES['GameRomHorse'];
-		if(defaultValues.horseType)
-			this.horseType=defaultValues.horseType;
-		if(defaultValues.mane)
-			this.mane=defaultValues.mane;
-		if(defaultValues.saddles)
-			this.saddles=defaultValues.saddles;
-		if(defaultValues.reins)
-			this.reins=defaultValues.reins;
-	}
-	this._htmlInputs.colorType.disabled=(this.horseType!==Horse.TYPE_NORMAL);
-	this._htmlInputs.footType.disabled=(this.horseType!==Horse.TYPE_NORMAL);
-}
-
-
-
-Horse.buildHtmlElements=function(item){
-	item._htmlInputs={
-		name:Pouch.createItemInput(item, 'name', 'WString16', {maxLength:9, label:_('Horse name')}),
-		mane:Pouch.createItemInput(item, 'mane', 'Enum', {enumValues:Horse.MANES, label:_('Mane')}),
-		saddles:Pouch.createItemInput(item, 'saddles', 'Enum', {enumValues:Horse.SADDLES, label:_('Saddle')}),
-		reins:Pouch.createItemInput(item, 'reins', 'Enum', {enumValues:Horse.REINS, label:_('Reins')}),
-		bond:Pouch.createItemInput(item, 'bond', 'Float', {min:0, max:100, label:_('Bond')}),
-		statsStrength:Pouch.createItemInput(item, 'statsStrength', 'Int', {min:100, max:350, label:_('Stats: Strength')}),
-		statsSpeed:Pouch.createItemInput(item, 'statsSpeed', 'Int', {enumValues:Horse.OPTIONS_STATS, label:_('Stats: Speed')}),
-		statsStamina:Pouch.createItemInput(item, 'statsStamina', 'Int', {enumValues:Horse.OPTIONS_STATS_STAMINA, label:_('Stats: Stamina')}),
-		statsPull:Pouch.createItemInput(item, 'statsPull', 'Int', {enumValues:Horse.OPTIONS_STATS, label:_('Stats: Pull')}),
-		colorType:Pouch.createItemInput(item, 'colorType', 'Int', {min:0, max:40, label:_('Horse color')}),
-		footType:Pouch.createItemInput(item, 'footType', 'Int', {min:0, max:1, label:_('Foot type')})
-	};
-}
-
-
 Horse.OPTIONS_STATS=[
 	{value:1, name:'★★'},
 	{value:2, name:'★★★'},
@@ -340,3 +308,6 @@ Horse.REINS=[
 	{value:hash('GameRomHorseReins_00L'), originalName:'GameRomHorseReins_00L'},
 	{value:hash('GameRomHorseReins_00S'), originalName:'GameRomHorseReins_00S'}
 ];
+
+global.Horse=Horse;
+})(this);
