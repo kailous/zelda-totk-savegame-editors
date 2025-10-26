@@ -5,7 +5,9 @@
 	research & information compiled by MacSpazzy, Phil, savage13, Karlos007 and Echocolat
 */
 
-var Completism={
+import { hash } from '../core/variables.js';
+
+const Completism={
 	_count:function(booleanHashes, valueTrue){
 		if(typeof valueTrue==='string')
 			valueTrue=hash(valueTrue);
@@ -2379,3 +2381,5 @@ var CompletismHashes={
 		0x3c4b7b8d,0x827ea767,0xa8a2e7b8,0x6dd46b75,0xdf76d934,0x5c906c16,0x9820338e,0x50446d5d,0xd471103a
 	]
 }
+
+export { Completism, CompletismHashes };

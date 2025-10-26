@@ -5,7 +5,10 @@
 	translated item names compiled by tingod
 */
 
-var Locale=(function(ui){
+const Locale=(function(ui){
+	if(!ui){
+		throw new Error('UI module not found');
+	}
 	const VALID_LOCALES=['en','fr','fr_alt','de','it','es','es_alt','nl','ru','ja','ko','zh','zh_alt'];
 	var _currentLocale=null;
 	var _currentLocaleAlt=null;
@@ -71,9 +74,11 @@ var Locale=(function(ui){
 			_cachedLocales[langCode]=strings;
 		}
 	}
-}(UI));
+}(window.UI));
 
 
 function _(str){
 	return Locale._(str);
 }
+
+export { Locale, _ };

@@ -88,3 +88,4 @@ AutoBuilder.fromFile=function(file){
 AutoBuilder.getIndexByAutobuilderIndex=function(autobuilderIndex){
 	return SavegameEditor.readU32Array('AutoBuilder.Draft.Content.Index').indexOf(autobuilderIndex);
 }
+export { AutoBuilder };

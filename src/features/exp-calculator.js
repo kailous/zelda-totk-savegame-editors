@@ -5,6 +5,8 @@
 	research & information compiled by Echocolat and Phil
 */
 
+import { hash } from '../core/variables.js';
+
 
 const ExperienceCalculator={
 	generateHashesTextActor(actorName){
@@ -366,3 +368,4 @@ const ExperienceCalculator={
 		0xf2113294, 0x62728ace, 0x80bc3a1c, 0xcb058401, 0x66b4e81b, 0x914be5af, 0x702b01c8
 	]
 };
+\nexport { ExperienceCalculator };

@@ -5,6 +5,10 @@
 	item names compiled by Echocolat, Exincracci, HylianLZ and Karlos007
 */
 
+import { Pouch } from './pouch.js';
+import { Variable, hash, hashReverse } from '../core/variables.js';
+import { _ } from '../core/locale.js';
+
 function Item(catId, itemData, overrideId){
 	this.category=catId;
 
@@ -940,3 +944,5 @@ Item.AVAILABILITY={
 
 Item.VALID_ELIXIR_EFFECTS=['AllSpeed','AttackUp','DefenseUp','ExStaminaMaxUp','LifeMaxUp','LightEmission','NotSlippy','QuietnessUp','ResistBurn','ResistCold','ResistElectric','ResistHot','StaminaRecover'];
 Item.VALID_ELIXIR_EFFECTS.forEach(hash);
+
+export { Item };

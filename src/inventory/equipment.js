@@ -5,6 +5,11 @@
 	research and item names compiled by Echocolat, Exincracci, HylianLZ, Karlos007 and ApacheThunder
 */
 
+import { Pouch } from './pouch.js';
+import { Item } from './item.js';
+import { Variable, hash, hashReverse } from '../core/variables.js';
+import { _ } from '../core/locale.js';
+
 function Equipment(catId, itemData, overrideId){ //Weapon, Bow or Shield
 	this.category=catId;
 
@@ -1376,3 +1381,5 @@ Equipment.FUSABLE_ITEMS=(function(){
 
 	return options;
 }());
+
+export { Equipment };

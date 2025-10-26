@@ -5,6 +5,10 @@
 	horse data thanks to JonJaded, Ozymandias07 and Karlos007
 */
 
+import { Pouch } from './pouch.js';
+import { hash } from '../core/variables.js';
+import { _ } from '../core/locale.js';
+
 function Horse(itemData, overrideId){
 	this.category='horses';
 
@@ -340,3 +344,4 @@ Horse.REINS=[
 	{value:hash('GameRomHorseReins_00L'), originalName:'GameRomHorseReins_00L'},
 	{value:hash('GameRomHorseReins_00S'), originalName:'GameRomHorseReins_00S'}
 ];
+export { Horse };

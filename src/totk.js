@@ -4,9 +4,21 @@
 	by Marc Robledo 2023-2025
 */
 
-var currentEditingItem;
+import { Struct, Variable, hash, hashReverse } from './core/variables.js';
+import { _ } from './core/locale.js';
+import { Pouch } from './inventory/pouch.js';
+import { Item } from './inventory/item.js';
+import { Equipment } from './inventory/equipment.js';
+import { Armor } from './inventory/armor.js';
+import { Horse } from './inventory/horse.js';
+import uiState from './ui-state.js';
+import { AutoBuilder } from './features/autobuilder.js';
+import { Completism, CompletismHashes } from './features/completism.js';
+import { MapPin, Coordinates } from './features/coordinates.js';
+import { ExperienceCalculator } from './features/exp-calculator.js';
+import { TOTKMasterEditor } from './features/master.js';
 
-SavegameEditor={
+const SavegameEditor={
 	Name:'The legend of Zelda: Tears of the Kingdom',
 	Filename:['progress.sav','caption.sav'],
 	Version:20250613,
@@ -548,7 +560,7 @@ SavegameEditor={
 		}
 	},
 	editItem:function(item){
-		currentEditingItem=item;
+		uiState.currentEditingItem=item;
 
 		/* prepare edit item selector */
 		item._htmlItemId.style.display='none';
@@ -571,27 +583,27 @@ SavegameEditor={
 		}
 	},
 	editItemEnd:function(newId){
-		if(currentEditingItem){
-			for(var prop in currentEditingItem._htmlInputs){
-				currentEditingItem._htmlInputs[prop].disabled=false;
+		if(uiState.currentEditingItem){
+			for(var prop in uiState.currentEditingItem._htmlInputs){
+				uiState.currentEditingItem._htmlInputs[prop].disabled=false;
 			}
 
-			if(newId && currentEditingItem.id!==newId){
-				currentEditingItem.id=newId;
-				Pouch.updateItemIcon(currentEditingItem);
-				Pouch.updateItemRow(currentEditingItem);
-				SavegameEditor.fixItemAvailabilityFlag(currentEditingItem);
+			if(newId && uiState.currentEditingItem.id!==newId){
+				uiState.currentEditingItem.id=newId;
+				Pouch.updateItemIcon(uiState.currentEditingItem);
+				Pouch.updateItemRow(uiState.currentEditingItem);
+				SavegameEditor.fixItemAvailabilityFlag(uiState.currentEditingItem);
 			}
 
-			currentEditingItem._htmlItemId.style.display='inline';
+			uiState.currentEditingItem._htmlItemId.style.display='inline';
 		}
 
 		this.itemFilterInput.parentElement.parentElement.removeChild(this.itemFilterInput.parentElement);
 
-		currentEditingItem=null;
+		uiState.currentEditingItem=null;
 	},
 	filterDropdownItems: function(query){
-		var itemList=this.getAvailableItems(currentEditingItem.category, query);
+		var itemList=this.getAvailableItems(uiState.currentEditingItem.category, query);
 		
 		if(SavegameEditor.customItemDropdown){
 			this.itemFilterResults.innerHTML='';
@@ -606,7 +618,7 @@ SavegameEditor={
 					event.stopPropagation();
 					SavegameEditor.editItemEnd(this.getAttribute('itemId'));
 				});
-				if(el===currentEditingItem.id)
+				if(el===uiState.currentEditingItem.id)
 					activeEl=option;
 
 				var itemIcon = new Image();
@@ -615,10 +627,10 @@ SavegameEditor={
 				itemIcon.onerror=function(){
 					this.src=ICON_PATH+'unknown.png';
 				}
-				if(currentEditingItem instanceof Armor){
-					itemIcon.src = Pouch.getItemIcon(new Armor(Object.assign({...currentEditingItem},{id:el})));
+				if(uiState.currentEditingItem instanceof Armor){
+					itemIcon.src = Pouch.getItemIcon(new Armor(Object.assign({...uiState.currentEditingItem},{id:el})));
 				} else {
-					itemIcon.src = Pouch.getItemIcon(Object.assign({...currentEditingItem},{id:el}));
+					itemIcon.src = Pouch.getItemIcon(Object.assign({...uiState.currentEditingItem},{id:el}));
 				}
 				option.appendChild(itemIcon);
 
@@ -641,8 +653,8 @@ SavegameEditor={
 				this.itemFilterResults.scrollTo(0, optionOffsetTop - 8);
 			}
 		}else{ //prefer classic dropdown in devices with touch events for UX purposes
-			if(this.itemChangeDropdown.lastCategory !== currentEditingItem.category){
-				this.itemChangeDropdown.lastCategory=currentEditingItem.category;
+			if(this.itemChangeDropdown.lastCategory !== uiState.currentEditingItem.category){
+				this.itemChangeDropdown.lastCategory=uiState.currentEditingItem.category;
 				this.itemChangeDropdown.innerHTML='';
 
 				for(var i=0; i<itemList.length; i++){
@@ -1219,23 +1231,23 @@ SavegameEditor={
 		});
 		/* dropdown */
 		$('#dropdown-item-button-pristine').on('click', function(evt){
-			if(SavegameEditor.restoreDecay(currentEditingItem))
-				Pouch.updateItemRow(currentEditingItem);
+			if(SavegameEditor.restoreDecay(uiState.currentEditingItem))
+				Pouch.updateItemRow(uiState.currentEditingItem);
 		});
 		$('#dropdown-item-button-durability').on('click', function(evt){
-			if(SavegameEditor.restoreDurability(currentEditingItem))
-				Pouch.updateItemRow(currentEditingItem);
+			if(SavegameEditor.restoreDurability(uiState.currentEditingItem))
+				Pouch.updateItemRow(uiState.currentEditingItem);
 		});
 		$('#dropdown-item-button-infinite').on('click', function(evt){
-			if(SavegameEditor.setInfiniteDurability(currentEditingItem))
-				Pouch.updateItemRow(currentEditingItem);
+			if(SavegameEditor.setInfiniteDurability(uiState.currentEditingItem))
+				Pouch.updateItemRow(uiState.currentEditingItem);
 		});
 		$('#dropdown-item-button-upgrade').on('click', function(evt){
-			if(SavegameEditor.upgradeArmor(currentEditingItem))
-				Pouch.updateItemRow(currentEditingItem);
+			if(SavegameEditor.upgradeArmor(uiState.currentEditingItem))
+				Pouch.updateItemRow(uiState.currentEditingItem);
 		});
 		$('#dropdown-item-button-duplicate').on('click', function(evt){
-			var newItem=SavegameEditor.pouches[currentEditingItem.category].add(currentEditingItem);
+			var newItem=SavegameEditor.pouches[uiState.currentEditingItem.category].add(uiState.currentEditingItem);
 			if(newItem){
 				UI.toast(_('Item duplicated'), 'duplicate');
 				document.getElementById('container-'+newItem.category).appendChild(Pouch.updateItemRow(newItem));
@@ -1243,14 +1255,14 @@ SavegameEditor={
 			}
 		});
 		$('#dropdown-item-button-export').on('click', function(evt){
-			var myJson=currentEditingItem.export();
+			var myJson=uiState.currentEditingItem.export();
 			var blob = new Blob([JSON.stringify(myJson, null, '\t')], {type: 'application/json;charset=utf-8'});
-			var fileName='totk_'+currentEditingItem.category.replace(/s$/,'')+'_';
-			if(currentEditingItem.category==='horses')
-				fileName+=_(currentEditingItem.name);
+			var fileName='totk_'+uiState.currentEditingItem.category.replace(/s$/,'')+'_';
+			if(uiState.currentEditingItem.category==='horses')
+				fileName+=_(uiState.currentEditingItem.name);
 			else
-				fileName+=_(currentEditingItem.id);
-			if(currentEditingItem.category==='weapons' || currentEditingItem.category==='bows' || currentEditingItem.category==='shields')
+				fileName+=_(uiState.currentEditingItem.id);
+			if(uiState.currentEditingItem.category==='weapons' || uiState.currentEditingItem.category==='bows' || uiState.currentEditingItem.category==='shields')
 				fileName+='_'+myJson.modifier;
 
 			saveAs(blob, fileName+'.json');
@@ -1263,23 +1275,23 @@ SavegameEditor={
 			fileReader.onload=function(evt){
 				try{
 					var jsonObject=JSON.parse(evt.target.result);
-					var pouch=SavegameEditor.pouches[currentEditingItem.category];
+					var pouch=SavegameEditor.pouches[uiState.currentEditingItem.category];
 					var pouchItems=pouch.items;
-					var index=pouchItems.indexOf(currentEditingItem);
+					var index=pouchItems.indexOf(uiState.currentEditingItem);
 
-					if(Pouch.getCategoryItemStructId(currentEditingItem.category)===jsonObject.totkStruct){
-						if(currentEditingItem.category==='weapons' || currentEditingItem.category==='bows' || currentEditingItem.category==='shields'){
-							pouchItems[index]=new Equipment(currentEditingItem.category, jsonObject);
-						}else if(currentEditingItem.category==='armors'){
+					if(Pouch.getCategoryItemStructId(uiState.currentEditingItem.category)===jsonObject.totkStruct){
+						if(uiState.currentEditingItem.category==='weapons' || uiState.currentEditingItem.category==='bows' || uiState.currentEditingItem.category==='shields'){
+							pouchItems[index]=new Equipment(uiState.currentEditingItem.category, jsonObject);
+						}else if(uiState.currentEditingItem.category==='armors'){
 							pouchItems[index]=new Armor(jsonObject);
-						}else if(currentEditingItem.category==='horses'){
+						}else if(uiState.currentEditingItem.category==='horses'){
 							pouchItems[index]=new Horse(jsonObject);
 						}else{
-							pouchItems[index]=new Item(currentEditingItem.category, jsonObject);
+							pouchItems[index]=new Item(uiState.currentEditingItem.category, jsonObject);
 						}
 
 						Pouch.updateItemRow(pouchItems[index]);
-						document.getElementById('container-'+currentEditingItem.category).replaceChild(pouchItems[index]._htmlRow, currentEditingItem._htmlRow);
+						document.getElementById('container-'+uiState.currentEditingItem.category).replaceChild(pouchItems[index]._htmlRow, uiState.currentEditingItem._htmlRow);
 					}
 				}catch(err){
 					console.error(err);
@@ -1290,14 +1302,14 @@ SavegameEditor={
 		$('#dropdown-item-button-delete').on('click', function(evt){
 			var showWarning=$('#checkbox-delete-item-warning').prop('checked');
 			if(showWarning){
-				$('#modal-delete-item-text').html(_('Are you sure you want to delete %s?').replace('%s', '<strong>'+currentEditingItem.getItemTranslation()+'</strong>'))
+				$('#modal-delete-item-text').html(_('Are you sure you want to delete %s?').replace('%s', '<strong>'+uiState.currentEditingItem.getItemTranslation()+'</strong>'))
 				UI.modal('delete-item');
 			}else{
-				SavegameEditor._removeItem(currentEditingItem.category, currentEditingItem);
+				SavegameEditor._removeItem(uiState.currentEditingItem.category, uiState.currentEditingItem);
 			}
 		});
 		$('#btn-delete-item-confirm').on('click', function(evt){
-			SavegameEditor._removeItem(currentEditingItem.category, currentEditingItem);
+			SavegameEditor._removeItem(uiState.currentEditingItem.category, uiState.currentEditingItem);
 		});
 
 
@@ -1413,7 +1425,7 @@ SavegameEditor={
 			});
 
 			this.itemFilterInput.addEventListener('blur', function(evt){
-				if(currentEditingItem)
+				if(uiState.currentEditingItem)
 					SavegameEditor.editItemEnd(null);
 			});
 
@@ -1424,20 +1436,20 @@ SavegameEditor={
 			this.itemChangeDropdown=document.createElement('select');
 			this.itemChangeDropdown.addEventListener('change', function(){
 				//console.log('change');
-				currentEditingItem.id=this.value;
-				Pouch.updateItemIcon(currentEditingItem);
+				uiState.currentEditingItem.id=this.value;
+				Pouch.updateItemIcon(uiState.currentEditingItem);
 			}, false);
 			this.itemChangeDropdown.addEventListener('blur', function(){
 				//console.log('blur');
-				for(var prop in currentEditingItem._htmlInputs){
-					currentEditingItem._htmlInputs[prop].disabled=false;
+				for(var prop in uiState.currentEditingItem._htmlInputs){
+					uiState.currentEditingItem._htmlInputs[prop].disabled=false;
 				}
-				Pouch.updateItemRow(currentEditingItem);
-				SavegameEditor.fixItemAvailabilityFlag(currentEditingItem);
-				currentEditingItem._htmlItemId.style.display='inline';
+				Pouch.updateItemRow(uiState.currentEditingItem);
+				SavegameEditor.fixItemAvailabilityFlag(uiState.currentEditingItem);
+				uiState.currentEditingItem._htmlItemId.style.display='inline';
 				this.parentElement.removeChild(this);
 
-				currentEditingItem=null;
+				uiState.currentEditingItem=null;
 			}, false);
 		}
 
@@ -2034,3 +2046,5 @@ function getInternalCategoryId(catId){
 	//else: weapon,bow,arrow,armor,material,food
 	return (catId.charAt(0).toUpperCase() + catId.substr(1)).replace(/s$/, '')
 }
+
+export { SavegameEditor, getInternalCategoryId };

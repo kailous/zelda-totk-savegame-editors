@@ -793,3 +793,5 @@ function hashReverse(hash){
 		return Variable.cachedHashesReverse[hash];
 	throw new Error(hash + ' has no precalculated reverse hash');
 }
+
+export { RAW_COORDINATES_TRANSFORM, Struct, Variable, hash, hashReverse };

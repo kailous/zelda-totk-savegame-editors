@@ -5,7 +5,9 @@
 	thanks to the immeasurable work, hash crack and research of MacSpazzy, MrCheeze and Karlos007
 */
 
-var TOTKMasterEditor=(function(){
+import { hash } from '../core/variables.js';
+
+const TOTKMasterEditor=(function(){
 	const HASHES_PER_PAGE=100;
 
 	var loaded=false;	
@@ -534,4 +536,4 @@ var TOTKMasterEditor=(function(){
 			return currentMini.struct.import(importedObject);
 		}
 	}
-}());
+}());\nexport { TOTKMasterEditor };
