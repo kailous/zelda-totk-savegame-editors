@@ -2633,5 +2633,3 @@ ADDISON:[
 	[4650.5, 161.27, 2337.17] //0x65201b78877fa778
 ]
 }
-
-export { MapPin, Coordinates };

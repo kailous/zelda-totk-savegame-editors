@@ -5,10 +5,6 @@
 	item names compiled by Echocolat, Exincracci, HylianLZ and Karlos007
 */
 
-import { Pouch } from './pouch.js';
-import { Variable, hash } from '../core/variables.js';
-import { _ } from '../core/locale.js';
-
 function Armor(itemData, overrideId){
 	this.category='armors';
 
@@ -392,4 +388,3 @@ Armor.INFO=(function(upgrades, dyeables){
 
 	'005' //Cap/Tunic/Trousers of the Wild
 ]));
-export { Armor };

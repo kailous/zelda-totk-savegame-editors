@@ -6,13 +6,6 @@
 	filterable item dropdown by xiyuesaves
 */
 
-import { Struct, Variable, hash, hashReverse } from '../core/variables.js';
-import { Item } from './item.js';
-import { Equipment } from './equipment.js';
-import { Armor } from './armor.js';
-import { Horse } from './horse.js';
-import uiState from '../ui-state.js';
-
 
 function Pouch(catId){
 	this.category=catId;
@@ -272,7 +265,7 @@ Pouch.updateItemRow=function(item){
 		item._htmlMenuButton.className='btn-menu-floating';
 		item._htmlMenuButton.addEventListener('click', function(evt){
 			evt.stopPropagation();
-			uiState.currentEditingItem=item;
+			currentEditingItem=item;
 
 			var showDivider=false;
 			if(item.category==='weapons'){
@@ -562,5 +555,3 @@ Pouch.Structs=Object.freeze({
 		{hash:'OwnedHorseList.Hair.SecondaryColor.Blue', type:'UIntArray', propertyName:'iconHairSecondaryColorBlue'}
 	]
 });
-
-export { Pouch };

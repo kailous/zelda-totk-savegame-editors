@@ -5,9 +5,7 @@
 	thanks to the immeasurable work, hash crack and research of MacSpazzy, MrCheeze and Karlos007
 */
 
-import { hash } from '../core/variables.js';
-
-const TOTKMasterEditor=(function(){
+var TOTKMasterEditor=(function(){
 	const HASHES_PER_PAGE=100;
 
 	var loaded=false;	
@@ -537,4 +535,3 @@ const TOTKMasterEditor=(function(){
 		}
 	}
 }());
-export { TOTKMasterEditor };

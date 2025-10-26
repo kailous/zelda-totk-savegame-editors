@@ -5,17 +5,11 @@
 	translated item names compiled by tingod
 */
 
-const Locale=(function(){
+var Locale=(function(ui){
 	const VALID_LOCALES=['en','fr','fr_alt','de','it','es','es_alt','nl','ru','ja','ko','zh','zh_alt'];
 	var _currentLocale=null;
 	var _currentLocaleAlt=null;
 	var _cachedLocales={};
-	var _fallbackUI={
-		toast:function(){}
-	};
-	var _getUI=function(){
-		return window.UI || _fallbackUI;
-	};
 
 	var _setSelectLanguageStatus=function(status){
 		if(document.getElementById('select-language'))
@@ -55,18 +49,18 @@ const Locale=(function(){
 			}else if(VALID_LOCALES.indexOf(langCode)!==-1){
 				var langCodeAll=langCode.replace('_alt','');
 
-				_getUI().toast('Loading '+langCodeAll.toUpperCase()+' translation...', 'locale');
+				ui.toast('Loading '+langCodeAll.toUpperCase()+' translation...', 'locale');
 				_setSelectLanguageStatus(false);
 
 				var script=document.createElement('script');
 				script.type='text/javascript';
 				script.onload=function(){
-					_getUI().toast(false, 'locale');
+					ui.toast(false, 'locale');
 					_setSelectLanguageStatus(true);
 					_setLocale(langCode);
 				}
 				script.onerror=function(){
-					_getUI().toast('Unexpected error: can\'t download locale file', 'locale');
+					ui.toast('Unexpected error: can\'t download locale file', 'locale');
 					_setSelectLanguageStatus(true);
 				}
 				script.src='./locale/zelda-totk.locale.'+langCodeAll+'.js';
@@ -77,11 +71,9 @@ const Locale=(function(){
 			_cachedLocales[langCode]=strings;
 		}
 	}
-}());
+}(UI));
 
 
 function _(str){
 	return Locale._(str);
 }
-
-export { Locale, _ };
