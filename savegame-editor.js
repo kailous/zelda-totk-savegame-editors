@@ -178,7 +178,7 @@ MarcDragAndDrop=(function(){
 			if(t)
 				span.innerHTML=t;
 			else
-				span.innerHTML='Drop files here';
+				span.innerHTML=_('Drop files here');
 			div.appendChild(span);
 			document.body.appendChild(div);
 
@@ -207,7 +207,7 @@ function _tempFileLoadFunction(){
 		show('the-editor');
 		show('toolbar');
 	}else{
-		MarcDialogs.alert('Invalid savegame file');
+		MarcDialogs.alert(_('Invalid savegame file'));
 	}
 }
 
@@ -221,7 +221,7 @@ function saveChanges(){
 }
 
 function closeFileConfirm(){
-	MarcDialogs.confirm('All changes will be lost.', function(){
+	MarcDialogs.confirm(_('All changes will be lost.'), function(){
 		closeFile();
 		MarcDialogs.close()
 	});
@@ -264,7 +264,8 @@ window.addEventListener('load', function(){
 	dragZone.className='wrapper';
 	var dragMessage=document.createElement('div');
 	dragMessage.id='dragzone-message';
-	dragMessage.innerHTML='<button class="close" onclick="document.getElementById(\'file-load\').click()"><i class=\"icon disk\"></i> Browse '+getSavegameAllNames()+'</button> or drop it here';
+	var browseLabel=_('Browse %s').replace('%s', getSavegameAllNames());
+	dragMessage.innerHTML='<button class="close" onclick="document.getElementById(\'file-load\').click()"><i class=\"icon disk\"></i> '+browseLabel+'</button> '+_('or drop it here');
 
 	var inputFile=document.createElement('input');
 	inputFile.type='file';
@@ -291,7 +292,7 @@ window.addEventListener('load', function(){
 	if(!SavegameEditor.noDemo){
 		var demoMessage=document.createElement('button');
 		demoMessage.id='demo';
-		demoMessage.innerHTML='Do you want to try it out? <u>Try an example savegame</u>';
+		demoMessage.innerHTML=_('Do you want to try it out? <u>Try an example savegame</u>');
 		demoMessage.addEventListener('click', function(){
 			var filename=getSavegameDefaultName();
 			if(typeof window.fetch==='function'){
@@ -304,8 +305,8 @@ window.addEventListener('load', function(){
 						tempFile._dataView=new DataView(ab);
 						_tempFileLoadFunction();
 					})
-					.catch(function(){
-						alert('Unexpected error: can\'t download example savegame');
+						.catch(function(){
+							alert(_('Unexpected error: can\'t download example savegame'));
 					});
 			}else{
 				var oReq=new XMLHttpRequest();
@@ -321,13 +322,13 @@ window.addEventListener('load', function(){
 						tempFile._u8array=new Uint8Array(ab);
 						tempFile._dataView=new DataView(ab);
 						_tempFileLoadFunction();
-					}else{
-						alert('Unexpected error: can\'t download example savegame');
+						}else{
+							alert(_('Unexpected error: can\'t download example savegame'));
 					}
 				};
 
-				oReq.onerror=function(oEvent){
-					alert('Unexpected error: can\'t download example savegame');
+					oReq.onerror=function(oEvent){
+						alert(_('Unexpected error: can\'t download example savegame'));
 				};
 
 				oReq.send(null);
@@ -351,11 +352,11 @@ window.addEventListener('load', function(){
 	var warningDialog=document.createElement('div');
 	warningDialog.className='dialog';
 	warningDialog.id='dialog-warning';
-	warningDialog.innerHTML='Use this tool at your own risk. By using it, you are responsible of any data lost.';
+	warningDialog.innerHTML=_('Use this tool at your own risk. By using it, you are responsible of any data lost.');
 	var divButtons=document.createElement('div');
 	divButtons.className='buttons';
 	var understandButton=document.createElement('button');
-	understandButton.innerHTML='I understand';
+	understandButton.innerHTML=_('I understand');
 	understandButton.addEventListener('click',function(){
 		var EXPIRE_DAYS=3;
 		var d=new Date();
