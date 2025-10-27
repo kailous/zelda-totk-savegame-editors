@@ -1,6 +1,18 @@
 Locale.add('en', {
 /* Zelda TOTK Savegame Editor - english translation */
 
+'Drop files here':'Drop files here',
+'Invalid savegame file':'Invalid savegame file',
+'All changes will be lost.':'All changes will be lost.',
+'Browse %s':'Browse %s',
+'or drop it here':'or drop it here',
+'Do you want to try it out? <u>Try an example savegame</u>':'Do you want to try it out? <u>Try an example savegame</u>',
+'Unexpected error: can\'t download example savegame':'Unexpected error: can\'t download example savegame',
+'Use this tool at your own risk. By using it, you are responsible of any data lost.':'Use this tool at your own risk. By using it, you are responsible of any data lost.',
+'I understand':'I understand',
+'Troubleshooting message':'<strong>Troubleshooting</strong>: Please read the <a href="https://github.com/marcrobledo/savegame-editors/wiki/TOTK-known-issues-&amp;-FAQ" target="_blank">list of known issues</a> if you are having problems when loading/saving your edited savegame.',
+'Troubleshooting warning':'<strong>Always remember to make backups of your savegames before editing. Use this savegame editor at your own risk. By using it, you are responsible of any data lost.</strong>',
+
 Weapon_Sword_001:'Traveler\'s Sword',
 Weapon_Sword_002:'Soldier\'s Broadsword',
 Weapon_Sword_003:'Knight\'s Broadsword',

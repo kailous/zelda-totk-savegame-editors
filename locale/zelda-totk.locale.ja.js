@@ -9,6 +9,37 @@ Locale.add('ja', {
 
 
 
+'Drop files here':'ここにファイルをドロップ',
+'Invalid savegame file':'セーブデータが無効です',
+'All changes will be lost.':'変更内容はすべて失われます。',
+'Browse %s':'%s を選択',
+'or drop it here':'またはここにドロップ',
+'Do you want to try it out? <u>Try an example savegame</u>':'試してみますか？ <u>サンプルセーブデータを開く</u>',
+'Unexpected error: can\'t download example savegame':'予期しないエラー：サンプルセーブデータをダウンロードできません',
+'Use this tool at your own risk. By using it, you are responsible of any data lost.':'本ツールの使用は自己責任です。使用によって発生したデータ損失についてはご自身の責任となります。',
+'I understand':'理解しました',
+'Troubleshooting message':'<strong>トラブルシューティング</strong>：編集したセーブデータの読み込みや保存で問題が発生する場合は、<a href="https://github.com/marcrobledo/savegame-editors/wiki/TOTK-known-issues-&amp;-FAQ" target="_blank">既知の問題一覧</a>をご確認ください。',
+'Troubleshooting warning':'<strong>編集前には必ずセーブデータをバックアップしてください。このセーブデータエディターの使用は自己責任であり、使用によるデータ損失についてはご自身が責任を負います。</strong>',
+'Select your language':'言語を選択',
+'English':'英語',
+'Français':'フランス語',
+'Français (Canada)':'フランス語 (カナダ)',
+'Deutsch':'ドイツ語',
+'Italiano':'イタリア語',
+'Español':'スペイン語',
+'Español latino':'スペイン語 (ラテンアメリカ語)',
+'Dutch':'ネオルド語',
+'Russian':'ロシア語',
+'Japanese':'日本語',
+'Korean':'韓国語',
+'Chinese (simplified)':'中国語 (簡体字)',
+'Chinese (traditional)':'中国語 (繁体字)',
+'I understand':'我理解',
+'See on GitHub':'在GitHub上查看',
+'Donate':'捐赠',
+
+
+
 /* fusable only materials */
 Item_Enemy_137:'Stone Talus Heart',
 Item_Enemy_138:'Luminous Stole Talus Heart',

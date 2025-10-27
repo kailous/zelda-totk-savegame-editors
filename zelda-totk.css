@@ -741,12 +741,15 @@ label.clickable:has(> input[type=radio]:checked){
 	line-height:2
 }
 #demo{
-	text-decoration:none;
-	padding:4px 16px;
-	border-radius:3px;
-	clear:both;
-	position:relative;
-	top:80px;
+	width: 100%;
+    border: none;
+    background-color: #fff;
+    text-decoration: none;
+    padding: 4px 16px;
+    border-radius: 3px;
+    clear: both;
+    position: relative;
+    top: 80px;
 }
 #demo:hover{
 	background-color:#bbb;

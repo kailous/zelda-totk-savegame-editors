@@ -9,6 +9,37 @@ Locale.add('de', {
 
 
 
+'Drop files here':'Dateien hier ablegen',
+'Invalid savegame file':'Ungültige Spielstanddatei',
+'All changes will be lost.':'Alle Änderungen gehen verloren.',
+'Browse %s':'Durchsuche %s',
+'or drop it here':'oder hier ablegen',
+'Do you want to try it out? <u>Try an example savegame</u>':'Möchtest du es ausprobieren? <u>Probiere einen Beispiel-Spielstand</u>',
+'Unexpected error: can\'t download example savegame':'Unerwarteter Fehler: Beispiel-Spielstand konnte nicht heruntergeladen werden',
+'Use this tool at your own risk. By using it, you are responsible of any data lost.':'Verwende dieses Tool auf eigene Gefahr. Durch die Nutzung trägst du die Verantwortung für jeden Datenverlust.',
+'I understand':'Ich verstehe',
+'Troubleshooting message':'<strong>Fehlerbehebung</strong>: Lies die <a href="https://github.com/marcrobledo/savegame-editors/wiki/TOTK-known-issues-&amp;-FAQ" target="_blank">Liste bekannter Probleme</a>, wenn beim Laden oder Speichern deines bearbeiteten Spielstands Probleme auftreten.',
+'Troubleshooting warning':'<strong>Denk immer daran, vor dem Bearbeiten Sicherungskopien deiner Spielstände zu erstellen. Verwende diesen Spielstand-Editor auf eigene Gefahr. Durch die Nutzung übernimmst du die Verantwortung für jeden Datenverlust.</strong>',
+'Select your language':'Wähle deine Sprache',
+'English':'Englisch',
+'Français':'Französisch',
+'Français (Canada)':'Französisch (Kanada)',
+'Deutsch':'Deutsch',
+'Italiano':'Italienisch',
+'Español':'Spanisch',
+'Español latino':'Spanisch (latinamerikanisch)',
+'Dutch':'Niederländisch',
+'Russian':'Russisch',
+'Japanese':'Japanisch',
+'Korean':'Koreanisch',
+'Chinese (simplified)':'Chinesisch (vereinfacht)',
+'Chinese (traditional)':'Chinesisch (traditionell)',
+'I understand':'Ich verstehe',
+'See on GitHub':'Auf GitHub anzeigen',
+'Donate':'Spende',
+
+
+
 /* fusable only materials */
 Item_Enemy_137:'Stone Talus Heart',
 Item_Enemy_138:'Luminous Stole Talus Heart',

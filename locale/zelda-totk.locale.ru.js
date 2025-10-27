@@ -9,6 +9,37 @@ Locale.add('ru', {
 
 
 
+'Drop files here':'Перетащите файлы сюда',
+'Invalid savegame file':'Недопустимый файл сохранения',
+'All changes will be lost.':'Все изменения будут потеряны.',
+'Browse %s':'Выбрать %s',
+'or drop it here':'или перетащите его сюда',
+'Do you want to try it out? <u>Try an example savegame</u>':'Хотите попробовать? <u>Загрузите пример сохранения</u>',
+'Unexpected error: can\'t download example savegame':'Неожиданная ошибка: не удалось скачать пример сохранения',
+'Use this tool at your own risk. By using it, you are responsible of any data lost.':'Используйте этот инструмент на свой страх и риск. Используя его, вы несете ответственность за любую потерю данных.',
+'I understand':'Понимаю',
+'Troubleshooting message':'<strong>Устранение неполадок</strong>: Ознакомьтесь со <a href="https://github.com/marcrobledo/savegame-editors/wiki/TOTK-known-issues-&amp;-FAQ" target="_blank">списком известных проблем</a>, если возникают трудности при загрузке или сохранении измененного сохранения.',
+'Troubleshooting warning':'<strong>Всегда делайте резервные копии сохранений перед редактированием. Используйте этот редактор сохранений на свой страх и риск. Используя его, вы несете ответственность за любую потерю данных.</strong>',
+'Select your language':'Выберите ваш язык',
+'English':'Английский',
+'Français':'Французский',
+'Français (Canada)':'Французский (Канада)',
+'Deutsch':'Немецкий',
+'Italiano':'Итальянский',
+'Español':'Испанский',
+'Español latino':'Испанский (латинский)',
+'Dutch':'Нидерландский',
+'Russian':'Русский',
+'Japanese':'Японский',
+'Korean':'Корейский',
+'Chinese (simplified)':'Китайский (упрощенный)',
+'Chinese (traditional)':'Китайский (традиционный)',
+'I understand':'Я понимаю',
+'See on GitHub':'Посмотреть на GitHub',
+'Donate':'Пожертвовать',
+
+
+
 /* fusable only materials */
 Item_Enemy_137:'Stone Talus Heart',
 Item_Enemy_138:'Luminous Stole Talus Heart',
